@@ -20,19 +20,19 @@ class HomePage extends StatelessWidget {
               children: [
                 const SizedBox(height: kToolbarHeight + 90),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     Hero(
                       tag: 'xw1',
                       child: XWidget(shouldAnimate: false, strokeWidth: 40),
                     ),
+                    SizedBox(width: 60),
                     Hero(
                       tag: '0w1',
                       child: OWidget(shouldAnimate: false, strokeWidth: 40),
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 80),
                 Text(
                   'Tic-Tac-Toe'.toUpperCase(),

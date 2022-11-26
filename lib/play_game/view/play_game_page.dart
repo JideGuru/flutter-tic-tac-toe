@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class PlayGamePage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final victory =
-        useState<Victory>(Victory(0, 0, LineType.none, Winner.none));
+    useState<Victory>(Victory(0, 0, LineType.none, Winner.none));
     final playersTurn = useState(true);
     final aisTurn = useState(false);
     final fields = useState<List<List<String>>>([
@@ -36,11 +37,12 @@ class PlayGamePage extends HookWidget {
     );
     final confettiController = ConfettiController(
       duration: const Duration(seconds: 10),
-    )..play();
+    )
+      ..play();
 
     void checkForVictory() {
       var checkedVictory =
-          VictoryChecker.checkForVictory(fields.value, playerChar);
+      VictoryChecker.checkForVictory(fields.value, playerChar);
 
       if (checkedVictory != null) {
         aisTurn.value = false;
@@ -162,6 +164,8 @@ class PlayGamePage extends HookWidget {
         ['', '', ''],
         ['', '', '']
       ];
+      ai.value =
+          AI(field: fields.value, playerChar: playerChar, aiChar: aiChar);
     }
 
     const titleTheme = TextStyle(
@@ -186,81 +190,97 @@ class PlayGamePage extends HookWidget {
           style: titleTheme,
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
+      body: Center(
+        child: SizedBox(
+          width: MediaQuery
+              .of(context)
+              .size
+              .width > 420
+              ? 400
+              : MediaQuery
+              .of(context)
+              .size
+              .width,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const SizedBox(height: 60),
-              Stack(
+              Column(
                 children: [
-                  const _GameGrid(),
-                  _GameFields(
-                    fields: fields.value,
-                    registerPlayerTurn: registerPlayerTurn,
-                    registerAiTurn: registerAiTurn,
-                    gameIsDone: () => gameIsDone(),
-                    playersTurn: playersTurn.value,
+                  const SizedBox(height: 60),
+                  Stack(
+                    children: [
+                      const _GameGrid(),
+                      _GameFields(
+                        fields: fields.value,
+                        registerPlayerTurn: registerPlayerTurn,
+                        registerAiTurn: registerAiTurn,
+                        gameIsDone: () => gameIsDone(),
+                        playersTurn: playersTurn.value,
+                      ),
+                      buildVictoryLine(victory.value),
+                    ],
                   ),
-                  buildVictoryLine(victory.value),
+                ],
+              ),
+              Column(
+                children: [
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    reverseDuration: const Duration(milliseconds: 300),
+                    child: () {
+                      if (playersTurn.value) {
+                        return Column(
+                          children: const [
+                            _BottomLoader(),
+                            SizedBox(height: 15),
+                            Text('Your Turn', style: infoTextStyle),
+                          ],
+                        );
+                      } else if (aisTurn.value) {
+                        return Column(
+                          children: const [
+                            _BottomLoader(),
+                            SizedBox(height: 15),
+                            Text('Thinking', style: infoTextStyle),
+                          ],
+                        );
+                      } else if (gameIsDone()) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () => playAgain(),
+                              child: const Text(
+                                  'Play Again', style: titleTheme),
+                            ),
+                            const SizedBox(height: 30),
+                            GestureDetector(
+                              onTap: () =>
+                                  Navigator.popUntil(
+                                    context,
+                                        (route) => route.isFirst,
+                                  ),
+                              child: const Text('Main Menu', style: titleTheme),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return Container();
+                      }
+                    }(),
+                  ),
+                  const SizedBox(height: 60),
                 ],
               ),
             ],
           ),
-          Column(
-            children: [
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                reverseDuration: const Duration(milliseconds: 300),
-                child: () {
-                  if (playersTurn.value) {
-                    return Column(
-                      children: const [
-                        _BottomLoader(),
-                        SizedBox(height: 15),
-                        Text('Your Turn', style: infoTextStyle),
-                      ],
-                    );
-                  } else if (aisTurn.value) {
-                    return Column(
-                      children: const [
-                        _BottomAILoader(),
-                        SizedBox(height: 15),
-                        Text('Thinking', style: infoTextStyle),
-                      ],
-                    );
-                  } else if (gameIsDone()) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: () => playAgain(),
-                          child: const Text('Play Again', style: titleTheme),
-                        ),
-                        const SizedBox(height: 30),
-                        GestureDetector(
-                          onTap: () => Navigator.popUntil(
-                            context,
-                            (route) => route.isFirst,
-                          ),
-                          child: const Text('Main Menu', style: titleTheme),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Container();
-                  }
-                }(),
-              ),
-              const SizedBox(height: 60),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget buildVictoryLine(Victory victory) => AspectRatio(
+  Widget buildVictoryLine(Victory victory) =>
+      AspectRatio(
         aspectRatio: 0.9,
         child: CustomPaint(painter: VictoryLinePainter(victory: victory)),
       );
@@ -350,16 +370,16 @@ class _GameFields extends HookWidget {
         children: [
           cell == 'x'
               ? const XWidget(
-                  height: 70,
-                  width: 70,
-                  strokeWidth: 25,
-                )
+            height: 70,
+            width: 70,
+            strokeWidth: 25,
+          )
               : const OWidget(
-                  height: 70,
-                  width: 70,
-                  radius: 40,
-                  strokeWidth: 25,
-                ),
+            height: 70,
+            width: 70,
+            radius: 40,
+            strokeWidth: 25,
+          ),
         ],
       );
     } else {
@@ -449,60 +469,28 @@ class _BottomLoader extends HookWidget {
       });
       return () {};
     }, []);
+    List<Widget> xo = [
+      const XWidget(
+        height: 30,
+        width: 30,
+        strokeWidth: 10,
+      ),
+      const OWidget(
+        height: 30,
+        width: 30,
+        strokeWidth: 10,
+        radius: 15,
+      )
+    ];
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         AnimatedPadding(
           duration: const Duration(milliseconds: 300),
           padding: EdgeInsets.only(right: padding.value),
-          child: const XWidget(
-            height: 30,
-            width: 30,
-            strokeWidth: 10,
-          ),
+          child: xo[Random().nextInt(2)],
         ),
-        const OWidget(
-          height: 30,
-          width: 30,
-          strokeWidth: 10,
-          radius: 15,
-        ),
-      ],
-    );
-  }
-}
-
-class _BottomAILoader extends HookWidget {
-  const _BottomAILoader({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final padding = useState<double>(25);
-
-    useEffect(() {
-      Timer(const Duration(milliseconds: 250), () {
-        padding.value = 10;
-      });
-      return () {};
-    }, []);
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        AnimatedPadding(
-          duration: const Duration(milliseconds: 300),
-          padding: EdgeInsets.only(right: padding.value),
-          child: const OWidget(
-            height: 30,
-            width: 30,
-            strokeWidth: 10,
-            radius: 15,
-          ),
-        ),
-        const XWidget(
-          height: 30,
-          width: 30,
-          strokeWidth: 10,
-        ),
+        xo[Random().nextInt(2)],
       ],
     );
   }
