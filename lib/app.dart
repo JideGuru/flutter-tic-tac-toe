@@ -11,9 +11,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Tic-Tac-Toe',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        // brightness: Brightness.dark,
+        brightness: Brightness.dark,
         backgroundColor: red,
         scaffoldBackgroundColor: red,
         fontFamily: 'Bungee',
