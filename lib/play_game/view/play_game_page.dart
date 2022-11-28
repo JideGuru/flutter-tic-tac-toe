@@ -5,7 +5,7 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:tic_tac_toe/app.dart';
-import 'package:tic_tac_toe/play_game/model/ai.dart';
+import 'package:tic_tac_toe/play_game/model/game_ai.dart';
 import 'package:tic_tac_toe/play_game/model/victory.dart';
 import 'package:tic_tac_toe/play_game/model/victory_checker.dart';
 import 'package:tic_tac_toe/play_game/widgets/victory_line.dart';
@@ -32,8 +32,8 @@ class PlayGamePage extends HookWidget {
       ['', '', ''],
       ['', '', '']
     ]);
-    final ai = useState(
-      AI(field: fields.value, playerChar: playerChar, aiChar: aiChar),
+    final gameAi = useState(
+      GameAI(field: fields.value, playerChar: playerChar, aiChar: aiChar),
     );
     final confettiController = ConfettiController(
       duration: const Duration(seconds: 10),
@@ -124,7 +124,7 @@ class PlayGamePage extends HookWidget {
     registerAiTurn(int row, int column) {
       aisTurn.value = true;
       Timer(const Duration(milliseconds: 1000), () {
-        var aiDecision = ai.value.getDecision();
+        var aiDecision = gameAi.value.getDecision();
         fields.value[aiDecision!.row][aiDecision.column] = aiChar;
         fields.notifyListeners();
         Timer(const Duration(milliseconds: 1000), () {
@@ -164,8 +164,8 @@ class PlayGamePage extends HookWidget {
         ['', '', ''],
         ['', '', '']
       ];
-      ai.value =
-          AI(field: fields.value, playerChar: playerChar, aiChar: aiChar);
+      gameAi.value =
+          GameAI(field: fields.value, playerChar: playerChar, aiChar: aiChar);
     }
 
     const titleTheme = TextStyle(

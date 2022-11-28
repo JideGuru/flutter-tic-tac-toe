@@ -2,13 +2,13 @@ import 'dart:math';
 
 import 'decision.dart';
 
-class AI {
+class GameAI {
   List<List<String>> field;
   String playerChar;
   String aiChar;
   Decision? _decision;
 
-  AI({required this.field, required this.playerChar, required this.aiChar});
+  GameAI({required this.field, required this.playerChar, required this.aiChar});
 
   Decision? getDecision() {
     _makeDecision();
