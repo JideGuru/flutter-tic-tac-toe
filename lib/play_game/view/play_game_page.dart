@@ -24,7 +24,7 @@ class PlayGamePage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final victory =
-    useState<Victory>(Victory(0, 0, LineType.none, Winner.none));
+        useState<Victory>(Victory(0, 0, LineType.none, Winner.none));
     final playersTurn = useState(true);
     final aisTurn = useState(false);
     final fields = useState<List<List<String>>>([
@@ -37,12 +37,11 @@ class PlayGamePage extends HookWidget {
     );
     final confettiController = ConfettiController(
       duration: const Duration(seconds: 10),
-    )
-      ..play();
+    );
 
     void checkForVictory() {
       var checkedVictory =
-      VictoryChecker.checkForVictory(fields.value, playerChar);
+          VictoryChecker.checkForVictory(fields.value, playerChar);
 
       if (checkedVictory != null) {
         aisTurn.value = false;
@@ -59,6 +58,7 @@ class PlayGamePage extends HookWidget {
         }
 
         if (message != null) {
+          confettiController.play();
           showDialog(
             context: context,
             builder: (context) {
@@ -123,11 +123,11 @@ class PlayGamePage extends HookWidget {
 
     registerAiTurn(int row, int column) {
       aisTurn.value = true;
-      Timer(const Duration(milliseconds: 1000), () {
+      Timer(const Duration(milliseconds: 500), () {
         var aiDecision = gameAi.value.getDecision();
         fields.value[aiDecision!.row][aiDecision.column] = aiChar;
-        fields.notifyListeners();
-        Timer(const Duration(milliseconds: 1000), () {
+        // fields.notifyListeners();
+        Timer(const Duration(milliseconds: 500), () {
           // Timer(const Duration(milliseconds: 600), () {
           //   checkForVictory();
           // });
@@ -145,7 +145,7 @@ class PlayGamePage extends HookWidget {
       List<List<String>> newFields = fields.value;
       newFields[row][column] = playerChar;
       fields.value = newFields;
-      fields.notifyListeners();
+      // fields.notifyListeners();
       Timer(const Duration(milliseconds: 600), () {
         checkForVictory();
         Timer(const Duration(milliseconds: 1000), () {
@@ -192,15 +192,9 @@ class PlayGamePage extends HookWidget {
       ),
       body: Center(
         child: SizedBox(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width > 420
+          width: MediaQuery.of(context).size.width > 420
               ? 400
-              : MediaQuery
-              .of(context)
-              .size
-              .width,
+              : MediaQuery.of(context).size.width,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -250,16 +244,15 @@ class PlayGamePage extends HookWidget {
                           children: [
                             GestureDetector(
                               onTap: () => playAgain(),
-                              child: const Text(
-                                  'Play Again', style: titleTheme),
+                              child:
+                                  const Text('Play Again', style: titleTheme),
                             ),
                             const SizedBox(height: 30),
                             GestureDetector(
-                              onTap: () =>
-                                  Navigator.popUntil(
-                                    context,
-                                        (route) => route.isFirst,
-                                  ),
+                              onTap: () => Navigator.popUntil(
+                                context,
+                                (route) => route.isFirst,
+                              ),
                               child: const Text('Main Menu', style: titleTheme),
                             ),
                           ],
@@ -279,11 +272,12 @@ class PlayGamePage extends HookWidget {
     );
   }
 
-  Widget buildVictoryLine(Victory victory) =>
-      AspectRatio(
-        aspectRatio: 0.9,
-        child: CustomPaint(painter: VictoryLinePainter(victory: victory)),
-      );
+  Widget buildVictoryLine(Victory victory) {
+    return AspectRatio(
+      aspectRatio: 0.9,
+      child: VictoryLine(victory: victory),
+    );
+  }
 }
 
 class _GameFields extends HookWidget {
@@ -370,16 +364,16 @@ class _GameFields extends HookWidget {
         children: [
           cell == 'x'
               ? const XWidget(
-            height: 70,
-            width: 70,
-            strokeWidth: 25,
-          )
+                  height: 70,
+                  width: 70,
+                  strokeWidth: 25,
+                )
               : const OWidget(
-            height: 70,
-            width: 70,
-            radius: 40,
-            strokeWidth: 25,
-          ),
+                  height: 70,
+                  width: 70,
+                  radius: 40,
+                  strokeWidth: 25,
+                ),
         ],
       );
     } else {

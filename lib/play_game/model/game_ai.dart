@@ -16,14 +16,14 @@ class GameAI {
   }
 
   _makeDecision() {
-    if (_isCenterEmpty()) return;
-    if (_aiIsCloseToWin()) return;
-    if (_playerIsCloseToWin()) return;
+    if (_chooseCenterIfNotEmpty()) return;
+    if (_isAiCloseToWinning()) return;
+    if (_isPlayerCloseToWinning()) return;
     if (_playerHasOneChar()) return;
     _chooseRandom();
   }
 
-  bool _isCenterEmpty() {
+  bool _chooseCenterIfNotEmpty() {
     if (field[1][1].isEmpty) {
       _decision = Decision(1, 1);
       return true;
@@ -32,7 +32,7 @@ class GameAI {
     }
   }
 
-  bool _aiIsCloseToWin() {
+  bool _isAiCloseToWinning() {
     return _hasTwoCharsInLine(0, 0, 0, 1, 0, 2, aiChar) ||
         _hasTwoCharsInLine(1, 0, 1, 1, 1, 2, aiChar) ||
         _hasTwoCharsInLine(2, 0, 2, 1, 2, 2, aiChar) ||
@@ -43,7 +43,7 @@ class GameAI {
         _hasTwoCharsInLine(0, 2, 1, 1, 2, 0, aiChar);
   }
 
-  bool _playerIsCloseToWin() {
+  bool _isPlayerCloseToWinning() {
     return _hasTwoCharsInLine(0, 0, 0, 1, 0, 2, playerChar) ||
         _hasTwoCharsInLine(1, 0, 1, 1, 1, 2, playerChar) ||
         _hasTwoCharsInLine(2, 0, 2, 1, 2, 2, playerChar) ||

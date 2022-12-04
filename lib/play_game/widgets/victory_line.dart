@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:tic_tac_toe/app.dart';
 import 'package:tic_tac_toe/play_game/model/victory.dart';
+
+class VictoryLine extends StatelessWidget {
+  final Victory victory;
+
+  const VictoryLine({
+    Key? key,
+    required this.victory,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(painter: VictoryLinePainter(victory: victory));
+  }
+}
 
 class VictoryLinePainter extends CustomPainter {
   Victory victory;
