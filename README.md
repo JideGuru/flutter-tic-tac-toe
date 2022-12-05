@@ -6,9 +6,36 @@ Simple TicTacToe app made with Flutter
 Try out the DEMO here
 [Link to Demo](https://tictactoe.jideguru.dev/)
 
-<div align="center">
-  <a href="https://www.youtube.com/shorts/j7bmrk1jPdI"><img src="https://img.youtube.com/vi/j7bmrk1jPdI/0.jpg" alt="IMAGE ALT TEXT"></a>
-</div>
+<img src="assets/screenshots/demo.gif"/>
+
+## ✨ Features
+
+#### Available Features
+- [x] Animations.
+- [x] Simple game 'AI'
+
+#### Features to Explore
+- [ ] Offline multiplayer
+- [ ] Online multiplayer
+
+## 💻 Requirements
+
+- Any Operating System (ie. MacOS X, Linux, Windows)
+- Any IDE with Flutter SDK installed (ie. IntelliJ, Android Studio, VSCode etc)
+- A little knowledge of Dart and Flutter
+
+## 📸 ScreenShots
+
+<img src="assets/screenshots/ss1.png"/>
+
+## 🤓 Author(s)
+
+**Olusegun Festus Babajide**
+[![Twitter Follow](https://img.shields.io/twitter/follow/iamjideguru.svg?style=social)](https://twitter.com/iamjideguru)
+
+## 🔖 LICENCE
+
+[Apache-2.0](https://github.com/JideGuru/flutter-tic-tac-toe/blob/master/LICENSE)
 
 ## Getting Started
 
