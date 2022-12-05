@@ -14,6 +14,8 @@ Try out the DEMO here
 - [x] Animations.
 - [x] Simple game 'AI'
 
+AI code extracted from https://github.com/IhorKlimov/Flutter-Tic-Tac-Toe/tree/master/lib/ai
+
 #### Features to Explore
 - [ ] Offline multiplayer
 - [ ] Online multiplayer
