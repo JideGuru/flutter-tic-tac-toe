@@ -6,7 +6,7 @@ Simple TicTacToe app made with Flutter
 Try out the DEMO here
 [Link to Demo](https://tictactoe.jideguru.dev/)
 
-<img src="assets/screenshots/demo.gif"/>
+<a href="https://www.youtube.com/shorts/j7bmrk1jPdI"> <img src="assets/screenshots/demo.gif"/> </a>
 
 ## ✨ Features
 
