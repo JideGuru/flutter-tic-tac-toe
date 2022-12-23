@@ -112,7 +112,8 @@ class XPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+  bool shouldRepaint(covariant XPainter oldDelegate) {
+    return oldDelegate.firstLineProgress != firstLineProgress ||
+        oldDelegate.secondLineProgress != secondLineProgress;
   }
 }

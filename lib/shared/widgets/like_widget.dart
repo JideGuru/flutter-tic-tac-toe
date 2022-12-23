@@ -163,7 +163,7 @@ class LikePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+  bool shouldRepaint(covariant LikePainter oldDelegate) {
+    return oldDelegate.progress != progress;
   }
 }

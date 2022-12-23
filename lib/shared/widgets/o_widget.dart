@@ -81,7 +81,7 @@ class OPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+  bool shouldRepaint(covariant OPainter oldDelegate) {
+    return oldDelegate.sweepAngle != sweepAngle;
   }
 }
